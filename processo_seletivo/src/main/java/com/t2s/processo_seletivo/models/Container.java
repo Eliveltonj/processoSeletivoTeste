@@ -1,19 +1,29 @@
 package com.t2s.processo_seletivo.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.sun.istack.NotNull;
+
+import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(
         name = "CONTAINERS",
-        uniqueConstraints =
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"cliente","numeroDoContainer"})}
 )
 public class Container {
+    @GeneratedValue
+    @Id
     private int id;
+    @Column(nullable = false, length = 30)
     private String cliente;
+    @Column(nullable = false, length = 11)
+    @Pattern(regexp = "[A-Z]{4}+[0-9]{7}$", message = "O padrão permitido é 4 letras e 7 numeros")
     private String numeroDoContainer;
+    @Column(nullable = false, length = 2)
     private int tipo;
+    @Column(nullable = false, length = 5)
     private String status;
+    @Column(nullable = false, length = 10)
     private String categoria;
 
     public Container(int id, String cliente, String numeroDoContainer, int tipo, String status, String categoria) {

@@ -1,12 +1,30 @@
 package com.t2s.processo_seletivo.models;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@Entity
+@Table(
+        name = "MOVIMENTACOES",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"dataHoraInicio", "container"}),
+                @UniqueConstraint(columnNames = {"dataHoraFim", "container"})
+        }
+)
 public class Movimentacao {
+    @GeneratedValue
+    @Id
     private int id;
+    @Column(nullable = false, length = 15)
     private String tipoDeMovimentacao;
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
     private Date dataHoraInicio;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataHoraFim;
+    @ManyToOne
+    @JoinColumn(name = "container", nullable = false)
     private Container container;
 
     public Movimentacao(int id, String tipoDeMovimentacao, Date dataHoraInicio, Date dataHoraFim, Container container) {
